@@ -95,7 +95,7 @@
 ;;
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (eval-and-compile
   (defun fringe-helper-convert (&rest strings)
@@ -118,7 +118,7 @@ For example, the following code defines a diagonal line.
     (apply 'vector
            (mapcar (lambda (str)
                      (let ((num 0))
-                       (dolist (c (string-to-list str))
+                       (cl-dolist (c (string-to-list str))
                          (setq num (+ (* num 2) (if (eq c ?.) 0 1))))
                        num))
                    strings))))
@@ -214,7 +214,7 @@ input automatically."
   (unless (or (not (overlay-buffer fringe-bitmap-reference))
               (overlay-get fringe-bitmap-reference 'fringe-helper-parent))
     ;; region
-    (dolist (ov (overlays-in (overlay-start fringe-bitmap-reference)
+    (cl-dolist (ov (overlays-in (overlay-start fringe-bitmap-reference)
                              (1+ (overlay-end fringe-bitmap-reference))))
       (when (eq (overlay-get ov 'fringe-helper-parent) fringe-bitmap-reference)
         (delete-overlay ov)))
